@@ -43,8 +43,7 @@ class Image():
         self.min_length=min_length  #min length of a turn
         self.max_length=max_length  #max length of a turn
         self.obj_color=obj_color    #color for the object
-        self.object_space=7
-        self.prov=(100,90,80)
+        self.filling=(100,90,80)    #color to fill gaps
         self.cumulative=0
         self.path=[]
 
@@ -108,7 +107,7 @@ class Image():
                 (x,y)=neighbor(self.current_site,self.current_vector,j,i)
                 self.set_color((x,y),self.inside,self.is_valid)
                 if self.current_vector%RIGHT_TURN==1:
-                    self.set_color((x+np.sign(j),y),self.prov,self.is_not_inside)
+                    self.set_color((x+np.sign(j),y),self.filling,self.is_not_inside)
         self.thickness=width
             
     #fixed the corner when the path changes direction
@@ -125,7 +124,7 @@ class Image():
             for i in range(self.thickness):
                 for k in {RIGHT_TURN,-RIGHT_TURN}:
                     (x,y)=neighbor(self.current_site,reference,k,i)
-                    self.set_color(neighbor((x,y),direction,0,j),self.prov,self.is_valid)
+                    self.set_color(neighbor((x,y),direction,0,j),self.filling,self.is_valid)
 
     #Counts how many neighbors of the site (x,y) at a given distance have a specific color.
     def count_nbr_color(self,x,y,color,distance):
@@ -149,7 +148,7 @@ class Image():
             for x in xrange(self.WIDTH):
                 if self.LATTICE[x][y]!=self.outside:
                     if self.count_nbr_color(x,y,self.outside,1)>0:
-                        if self.count_nbr_color(x,y,self.inside,1)>0 or self.count_nbr_color(x,y,self.prov,1)>0:
+                        if self.count_nbr_color(x,y,self.inside,1)>0 or self.count_nbr_color(x,y,self.filling,1)>0:
                             self.LATTICE[x][y]=self.border
                         else:
                             self.LATTICE[x][y]=self.outside
@@ -273,6 +272,7 @@ def create_data_set(width,height, background, interior, border, path_width, dire
         
                            
 
-#Examples: data_set(30,30,0,2,1,5,{1,2,3,4,5,6,7,8},3,3,5,5,15,-1,3,3,100000,"dataset.json")
-#          create_image(200,200,60,60,(0,0,0),(0,250,250),(216,100,123),7,{1,2,3,4},18,5,8,35,40,(1,196,255),20,40,True)
+#Examples: 
+#data_set(30,30,0,2,1,5,{1,2,3,4,5,6,7,8},3,3,5,5,15,-1,3,3,100000,"dataset.json")
+#create_image(200,200,60,60,(0,0,0),(0,250,250),(216,100,123),7,{1,2,3,4},18,5,8,35,40,(1,196,255),20,40,True)
 
