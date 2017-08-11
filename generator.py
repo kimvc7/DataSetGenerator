@@ -14,10 +14,11 @@ INV_VECTORS={(0,-1):0, (1,-1):1,(1,0):2,(1,1):3,(0,1):4,(-1,1):5,(-1,0):6,(-1,-1
 NUM_NEIGHBORS=8
 RIGHT_TURN=2
 
-
+#adds two vectors
 def sum_vectors(v1,v2):
-        return tuple(map(operator.add, v1,v2))
+    return tuple(map(operator.add, v1,v2))
 
+#Finds the neighbor of a point with specific distance and direction
 def neighbor((x,y),direction,turns,distance):
     return sum_vectors((x,y),tuple(map(lambda x: x*distance,VECTORS[(direction+turns)%NUM_NEIGHBORS])))
 
@@ -52,7 +53,7 @@ class Image():
     def change(self,old_color,new_color):
         self.LATTICE=map(lambda row: map(lambda s: new_color if s==old_color else s, row), self.LATTICE)
 
-     #True iff (x,y) has valid coordinates
+    #True iff (x,y) has valid coordinates
     def is_valid(self,(x,y)):
         return x>=0 and x<self.WIDTH and y>=0 and y<self.HEIGHT                  
 
